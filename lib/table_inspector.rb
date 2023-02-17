@@ -1,5 +1,6 @@
 require "table_inspector/version"
 require "table_inspector/railtie"
+require "tty-table"
 
 module TableInspector
   Error = Class.new(StandardError)
