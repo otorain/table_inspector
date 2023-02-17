@@ -23,4 +23,5 @@ Gem::Specification.new do |spec|
   end
 
   spec.add_dependency "rails", ">= 6.0.3.0"
+  spec.add_dependency "tty-table", "~> 0.12.0"
 end
