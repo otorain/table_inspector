@@ -11,12 +11,14 @@ require "table_inspector"
 TableInspector.scan User
 ```
 
+![TableInspect scan table](img/table_inspector_scan_table.png)
+
 And to print specific column by:
 
 ```ruby
 TableInspector.scan User, :name
 ```
-
+![Table Inspector scan column](img/table_inspector_scan_column.png)
 ## Installation
 Add this line to your application's Gemfile:
 
