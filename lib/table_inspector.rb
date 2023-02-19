@@ -7,7 +7,7 @@ module TableInspector
 
   extend self
   
-  def scan(klass, column_name = nil)
+  def scan(klass, column_name = nil, sql_type: false)
     begin
       unless klass.is_a?(Class)
         klass = klass.constantize
@@ -19,48 +19,50 @@ module TableInspector
     raise_invalid_model_error! unless klass < ActiveRecord::Base
 
     if column_name
-      scan_column(klass, column_name)
+      scan_column(klass, column_name, sql_type: sql_type)
     else
-      scan_table(klass)
+      scan_table(klass, sql_type: sql_type)
     end
   end
   
   private
 
-  def scan_column(klass, col_name)
+  def scan_column(klass, col_name, sql_type: false)
     columns = klass.columns
     column = columns.find{|col| col.name == col_name.to_s}
 
     raise_column_not_found_error! unless column
 
-    meta = extract_meta(column)
+    meta = extract_meta(column, sql_type: sql_type)
     header = meta.keys.map(&:upcase_first)
 
     table = TTY::Table.new(header: header)
-    table << extract_meta(column).values
+    table << extract_meta(column, sql_type: sql_type).values
 
     puts table.render(:ascii)
   end
 
-  def scan_table(klass)
+  def scan_table(klass, sql_type: false )
     columns = klass.columns
-    first_column_meta = extract_meta(columns.first)
-    header = first_column_meta.keys.map(&:upcase_first)
+    first_column_meta = extract_meta(columns.first, sql_type: sql_type)
+    header = first_column_meta.keys.map(&:humanize)
     table = TTY::Table.new(header: header)
 
     columns.each do |column|
-      table << extract_meta(column).values
+      table << extract_meta(column, sql_type: sql_type).values
     end
 
     puts table.render(:ascii)
   end
 
-  def extract_meta(column)
-    column.as_json.merge(column.sql_type_metadata.as_json).slice(*ordered_keys)
+  def extract_meta(column, sql_type: false)
+    column.as_json.merge(column.sql_type_metadata.as_json).slice(*ordered_keys(sql_type: sql_type))
   end
 
-  def ordered_keys
-    %w[ name type limit null default precision scale comment]
+  def ordered_keys(sql_type: false)
+    %w[ name type limit null default precision scale comment].tap do |keys|
+      keys << "sql_type" if sql_type
+    end
   end
 
   def raise_invalid_model_error!
