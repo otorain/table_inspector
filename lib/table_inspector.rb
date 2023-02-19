@@ -12,7 +12,7 @@ module TableInspector
       unless klass.is_a?(Class)
         klass = klass.constantize
       end
-    rescue NameError => e
+    rescue NameError
       raise_invalid_model_error!
     end
 
