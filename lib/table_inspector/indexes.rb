@@ -12,7 +12,7 @@ module TableInspector
       render_title
 
       if column
-        render_indexes_with_specify_column
+        render_indexes_with_specific_column
       else
         render_indexes
       end
@@ -26,7 +26,7 @@ module TableInspector
       end
     end
 
-    def render_indexes_with_specify_column
+    def render_indexes_with_specific_column
       if indexes_with_specific_column.blank?
         puts "Empty."
         return
@@ -34,11 +34,7 @@ module TableInspector
 
       Grid.new.render do |grid|
         indexes_with_specific_column.each do |index|
-          grid << [
-            index.name,
-            "[#{index.columns.join(', ')}]",
-            index.unique ? "UNIQUE" : ""
-          ]
+          grid << compose_index_data(index)
         end
       end
     end
@@ -51,13 +47,17 @@ module TableInspector
 
       Grid.new.render do |grid|
         indexes.each do |index|
-          grid << [
-            index.name,
-            "[#{index.columns.join(', ')}]",
-            index.unique ? "UNIQUE" : ""
-          ]
+          grid << compose_index_data(index)
         end
       end
+    end
+
+    def compose_index_data(index)
+      [
+        index.name,
+        "[#{index.columns.join(', ')}]",
+        index.unique ? "UNIQUE" : ""
+      ]
     end
 
     def indexes
