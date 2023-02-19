@@ -52,7 +52,12 @@ module TableInspector
       table << extract_meta(column, sql_type: sql_type).values
     end
 
+    puts "\n"
+    puts "#{bold("Table")}: #{klass.table_name}"
+    puts "\n"
     puts table.render(:ascii)
+    puts "\n"
+    print_indexes(klass)
   end
 
   def extract_meta(column, sql_type: false)
@@ -71,5 +76,34 @@ module TableInspector
 
   def raise_column_not_found_error!
     raise Error, "Column not found!"
+  end
+
+  def list_indexes(klass)
+    table_name = klass.table_name
+    connection.indexes(table_name)
+  end
+
+  def print_indexes(klass)
+    table = TTY::Table.new
+    indexes = list_indexes(klass)
+    indexes.each do |index|
+      table << [
+        index.name,
+        "[#{index.columns.join(', ')}]",
+        index.unique ? "UNIQUE" : ""
+      ]
+    end
+
+    puts bold("Indexes")
+    puts "\n"
+    puts table.render
+  end
+
+  def connection
+    @_connection ||= ActiveRecord::Base.connection
+  end
+
+  def bold(str)
+    "\033[1m#{str}\033[0m"
   end
 end
