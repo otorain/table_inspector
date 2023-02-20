@@ -21,18 +21,17 @@ module TableInspector
     private
 
     def render_title
-      Grid.new.render padding: [0, 2] do |grid|
+      Grid.new.render do |grid|
         grid << [Text.bold("Indexes")]
       end
     end
 
     def render_indexes_with_specific_column
       if indexes_with_specific_column.blank?
-        puts "Empty."
-        return
+        Grid.render_empty
       end
 
-      Grid.new.render do |grid|
+      Grid.new.render(padding: [0, 2]) do |grid|
         indexes_with_specific_column.each do |index|
           grid << compose_index_data(index)
         end
@@ -41,11 +40,11 @@ module TableInspector
 
     def render_indexes
       if indexes.blank?
-        puts "Empty."
+        Grid.render_empty
         return
       end
 
-      Grid.new.render do |grid|
+      Grid.new.render(padding: [0, 2]) do |grid|
         indexes.each do |index|
           grid << compose_index_data(index)
         end

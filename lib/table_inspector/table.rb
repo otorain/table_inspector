@@ -25,13 +25,13 @@ module TableInspector
     private
 
     def render_title
-      Grid.new.render with: {padding: [0, 2]} do |grid|
+      Grid.new.render do |grid|
         grid << ["#{Text.bold('Table')}: #{klass.table_name}"]
       end
     end
 
     def render_body
-      Grid.new(header: presenter.header).render_ascii do |grid|
+      Grid.new(header: presenter.header).render_ascii(indent: 2) do |grid|
         klass.columns.each do |column|
           grid << presenter.extract_meta(column).values
         end

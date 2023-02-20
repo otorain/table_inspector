@@ -17,6 +17,12 @@ module TableInspector
       puts grid.render(:ascii, **common_render_options.merge(with))
     end
 
+    def self.render_empty
+      new.render(padding: [0, 2]) do |grid|
+        grid << ["Empty."]
+      end
+    end
+
     def common_render_options
       {
         multiline: true
