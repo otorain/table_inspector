@@ -27,6 +27,9 @@ It will print the column definition and which indexes that contains this column.
 
 Also, you can print `sql_type` which type of column in database by provide `sql_type: true` option: 
 
+```ruby
+TableInspector.scan User, sql_type: true
+```
 ![Table Inspector scan table column with sql type](/img/table_inspector_scan_table_with_sql_type_1.png)
 
 ## Installation
