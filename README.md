@@ -22,7 +22,7 @@ TableInspector.ascan User
 ```
 ![TableInspect ascan table](/img/table_inspector_ascan_table_1.png)
 
-And to print specific column by:
+And to print a specific column by:
 
 ```ruby
 TableInspector.scan User, :name
