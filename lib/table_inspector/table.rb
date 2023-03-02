@@ -3,10 +3,10 @@ module TableInspector
   class Table
     attr_reader :klass, :sql_type, :presenter
 
-    def initialize(klass, sql_type: false)
+    def initialize(klass, sql_type: false, colorize: false)
       @klass = klass
       @sql_type = sql_type
-      @presenter = Presenter.new(klass, sql_type: sql_type)
+      @presenter = Presenter.new(klass, sql_type: sql_type, colorize: colorize)
     end
 
     def render

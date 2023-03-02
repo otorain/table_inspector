@@ -3,11 +3,11 @@ module TableInspector
   class Column
     attr_reader :column, :klass, :sql_type, :presenter
 
-    def initialize(klass, column_name, sql_type: false)
+    def initialize(klass, column_name, sql_type: false, colorize: false )
       @column = klass.columns.find {|column| column.name == column_name.to_s}
       @klass = klass
       @sql_type = sql_type
-      @presenter = Presenter.new(klass, sql_type: sql_type)
+      @presenter = Presenter.new(klass, sql_type: sql_type, colorize: false)
     end
 
     def render

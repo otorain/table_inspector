@@ -7,11 +7,32 @@ require "table_inspector/indexes"
 require "table_inspector/text"
 require "table_inspector/column"
 require "table_inspector/presenter"
+require "table_inspector/validator"
 
 module TableInspector
   extend self
 
+  def ascan(klass, column_name = nil, sql_type: false)
+    klass = init_klass!(klass)
+    return unless klass
+
+    return unless Validator.new(klass, column_name)
+
+    render(klass, column_name, sql_type, colorize: true)
+  end
+
   def scan(klass, column_name = nil, sql_type: false)
+    klass = init_klass!(klass)
+    return unless klass
+
+    return unless Validator.new(klass, column_name)
+
+    render(klass, column_name, sql_type)
+  end
+
+  private
+
+  def init_klass!(klass)
     begin
       unless klass.is_a?(Class)
         klass = klass.to_s.classify.constantize
@@ -21,38 +42,18 @@ module TableInspector
       return
     end
 
-    unless klass < ActiveRecord::Base
-      puts not_a_model_class_hint(klass)
-      return
-    end
-
-    if column_name && !validate_column(klass, column_name)
-      puts column_is_not_exists_hint(klass, column_name)
-      return
-    end
-
-    if column_name
-      Column.new(klass, column_name, sql_type: sql_type).render
-    else
-      Table.new(klass, sql_type: sql_type).render
-    end
+    klass
   end
-  
-  private
 
-  def validate_column(klass, column_name)
-    klass.columns.find{|column| column.name == column_name.to_s }
+  def render(klass, column_name, sql_type, colorize: false)
+    if column_name
+      Column.new(klass, column_name, sql_type: sql_type, colorize: colorize).render
+    else
+      Table.new(klass, sql_type: sql_type, colorize: colorize).render
+    end
   end
 
   def invalid_model_name_hint(klass)
     "'#{klass}' can be transform to a model class."
-  end
-
-  def not_a_model_class_hint(klass)
-    "#{klass} is not a model klass"
-  end
-
-  def column_is_not_exists_hint(klass, column_name)
-    puts "Column '#{column_name}' doesn't exists in table '#{klass.table_name}'"
   end
 end
