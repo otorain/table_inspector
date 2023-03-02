@@ -20,7 +20,7 @@ Or you can use `TableInspector.ascan` to print more colorful table(`ascan` means
 ```ruby
 TableInspector.ascan User
 ```
-![TableInspect ascan table](/img/table_inspector_ascan_table.png)
+![TableInspect ascan table](/img/table_inspector_ascan_table_1.png)
 
 And to print specific column by:
 
