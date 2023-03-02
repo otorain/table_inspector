@@ -16,6 +16,12 @@ TableInspector.scan User
 
 It will print the all table definition and all indexes.
 
+Or you can use `TableInspector.ascan` to print more colorful table(`ascan` means `awesome scan`) :
+```ruby
+TableInspector.ascan User
+```
+![TableInspect ascan table](/img/table_inspector_ascan_table.png)
+
 And to print specific column by:
 
 ```ruby
