@@ -7,25 +7,26 @@ require "table_inspector/indexes"
 require "table_inspector/text"
 require "table_inspector/column"
 require "table_inspector/presenter"
-require "table_inspector/validator"
+require "table_inspector/model_validator"
+require "table_inspector/column_validator"
 
 module TableInspector
   extend self
 
   def ascan(klass, column_name = nil, sql_type: false)
     klass = init_klass!(klass)
-    return unless klass
 
-    return unless Validator.new(klass, column_name)
+    return unless klass
+    return unless  validate!(klass, column_name)
 
     render(klass, column_name, sql_type, colorize: true)
   end
 
   def scan(klass, column_name = nil, sql_type: false)
     klass = init_klass!(klass)
-    return unless klass
 
-    return unless Validator.new(klass, column_name)
+    return unless klass
+    return unless validate!(klass, column_name)
 
     render(klass, column_name, sql_type)
   end
@@ -43,6 +44,16 @@ module TableInspector
     end
 
     klass
+  end
+
+  def validate!(klass, column_name)
+    model_validator = ModelValidator.new(klass)
+    unless column_name
+      return model_validator.validate!
+    end
+
+    column_validator = ColumnValidator.new(klass, column_name)
+    model_validator.validate! && column_validator.validate!
   end
 
   def render(klass, column_name, sql_type, colorize: false)
