@@ -5,7 +5,7 @@ Gem::Specification.new do |spec|
   spec.version     = TableInspector::VERSION
   spec.authors     = ["ian"]
   spec.email       = ["ianlynxk@gmail.com"]
-  spec.homepage    = "https://github.com/table_inspector"
+  spec.homepage    = "https://github.com/otorain/table_inspector"
   spec.summary     = "Inspect table structure of ActiveRecord class"
   spec.description = "Inspect table structure of ActiveRecord class"
   spec.license     = "MIT"
