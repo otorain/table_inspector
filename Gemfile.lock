@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    table_inspector (0.4.3)
+    table_inspector (0.5.1)
       rails (>= 6.0.3.0)
       terminal-table (~> 3.0.2)
 
