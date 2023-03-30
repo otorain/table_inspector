@@ -14,7 +14,7 @@ module TableInspector
   extend self
 
   def ascan(klass, column_name = nil, sql_type: false)
-    klass = init_klass!(klass)
+    klass = classify!(klass)
 
     return unless klass
     return unless  validate!(klass, column_name)
@@ -23,7 +23,7 @@ module TableInspector
   end
 
   def scan(klass, column_name = nil, sql_type: false)
-    klass = init_klass!(klass)
+    klass = classify!(klass)
 
     return unless klass
     return unless validate!(klass, column_name)
@@ -33,7 +33,7 @@ module TableInspector
 
   private
 
-  def init_klass!(klass)
+  def classify!(klass)
     begin
       unless klass.is_a?(Class)
         klass = klass.to_s.classify.constantize
