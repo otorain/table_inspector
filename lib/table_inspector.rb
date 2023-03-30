@@ -17,7 +17,7 @@ module TableInspector
     klass = classify!(klass)
 
     return unless klass
-    return unless  validate!(klass, column_name)
+    return unless validate!(klass, column_name)
 
     render(klass, column_name, sql_type, colorize: true)
   end

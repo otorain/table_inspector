@@ -27,7 +27,7 @@ module TableInspector
     end
 
     def render_body
-      Grid.new(headings: presenter.header) do |grid|
+      Grid.new(headings: presenter.headings) do |grid|
         klass.columns.each do |column|
           grid.add_row(presenter.extract_meta(column).values)
         end

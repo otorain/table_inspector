@@ -9,6 +9,21 @@ module TableInspector
       @colorize = colorize
     end
 
+    def extract_meta(column)
+      if @colorize
+        extract_meta_with_highlight(column)
+      else
+        extract_meta_without_highlight(column)
+      end
+    end
+
+    def headings
+      first_column = klass.columns.first
+      extract_meta(first_column).keys.map(&:humanize)
+    end
+
+    private
+
     def extract_meta_with_highlight(column)
       column_data = column.as_json.merge(column.sql_type_metadata.as_json)
 
@@ -27,21 +42,6 @@ module TableInspector
     def extract_meta_without_highlight(column)
       column.as_json.merge(column.sql_type_metadata.as_json).slice(*ordered_keys)
     end
-
-    def extract_meta(column)
-      if @colorize
-        extract_meta_with_highlight(column)
-      else
-        extract_meta_without_highlight(column)
-      end
-    end
-
-    def header
-      first_column = klass.columns.first
-      extract_meta(first_column).keys.map(&:humanize)
-    end
-
-    private
 
     def ordered_keys
       %w[name type limit null default precision scale comment].tap do |keys|
