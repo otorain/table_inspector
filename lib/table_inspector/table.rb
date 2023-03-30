@@ -11,31 +11,31 @@ module TableInspector
 
     def render
       Text.break_line
-
       render_title
       render_body
-
       Text.break_line
-
-      Indexes.new(klass).render
-
+      render_indexes
       Text.break_line
     end
 
     private
 
     def render_title
-      Grid.new.render do |grid|
-        grid << ["#{Text.bold('Table')}: #{klass.table_name}"]
-      end
+      Grid.new do |grid|
+        grid.add_row(["#{Text.bold('Table')}: #{klass.table_name}"])
+      end.render
     end
 
     def render_body
-      Grid.new(header: presenter.header).render_ascii(indent: 2) do |grid|
+      Grid.new(headings: presenter.header) do |grid|
         klass.columns.each do |column|
-          grid << presenter.extract_meta(column).values
+          grid.add_row(presenter.extract_meta(column).values)
         end
-      end
+      end.render
+    end
+
+    def render_indexes
+      Indexes.new(klass).render
     end
   end
 end

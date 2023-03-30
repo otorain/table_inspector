@@ -1,32 +1,24 @@
 
 module TableInspector
   class Grid
-    attr_reader :grid
+    attr_reader :terminal_table
 
-    def initialize(**options)
-      @grid = TTY::Table.new(**options)
+    delegate :add_row,
+             :to_s,
+             :rows, to: :terminal_table
+
+    def initialize(**options, &block)
+      @terminal_table = ::Terminal::Table.new(**options)
+      yield self if block_given?
     end
 
-    def render(**with)
-      yield grid
-      puts grid.render(**common_render_options.merge(with))
-    end
-
-    def render_ascii(**with)
-      yield grid
-      puts grid.render(:ascii, **common_render_options.merge(with))
-    end
-
-    def self.render_empty
-      new.render(padding: [0, 2]) do |grid|
-        grid << ["Empty."]
+    def render
+      if rows.empty?
+        Text.break_line
+        puts "  Empty."
+      else
+        puts self
       end
-    end
-
-    def common_render_options
-      {
-        multiline: true
-      }
     end
   end
 end

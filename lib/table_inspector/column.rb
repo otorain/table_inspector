@@ -12,29 +12,25 @@ module TableInspector
 
     def render
       Text.break_line
-
       render_title
       render_body
-
       Text.break_line
-
       Indexes.new(klass, column.name).render
-
       Text.break_line
     end
 
     private
 
     def render_title
-      Grid.new.render(padding: [0, 4, 0, 0]) do |grid|
-        grid << ["#{Text.bold('Table')}: #{klass.table_name}", "#{Text.bold('Column')}: #{column.name}"]
-      end
+      Grid.new do |grid|
+        grid.add_row(["#{Text.bold('Table')}: #{klass.table_name}", "#{Text.bold('Column')}: #{column.name}"])
+      end.render
     end
 
     def render_body
-      Grid.new(header: presenter.header).render_ascii(indent: 2) do |grid|
-        grid << @presenter.extract_meta(column).values
-      end
+      Grid.new(headings: presenter.header) do |grid|
+        grid.add_row(@presenter.extract_meta(column).values)
+      end.render
     end
   end
 end

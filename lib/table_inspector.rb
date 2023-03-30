@@ -1,6 +1,6 @@
 require "table_inspector/version"
 require "table_inspector/railtie"
-require "tty-table"
+require "terminal-table"
 require "table_inspector/table"
 require "table_inspector/grid"
 require "table_inspector/indexes"

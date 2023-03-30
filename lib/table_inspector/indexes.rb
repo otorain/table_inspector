@@ -1,17 +1,17 @@
 
 module TableInspector
   class Indexes
-    attr_reader :klass, :column
+    attr_reader :klass, :column_name
 
-    def initialize(klass, column = nil)
+    def initialize(klass, column_name = nil)
       @klass = klass
-      @column = column
+      @column_name = column_name
     end
 
     def render
       render_title
 
-      if column
+      if column_name
         render_indexes_with_specific_column
       else
         render_indexes
@@ -21,34 +21,25 @@ module TableInspector
     private
 
     def render_title
-      Grid.new.render do |grid|
-        grid << [Text.bold("Indexes")]
-      end
+      Grid.new do |grid|
+        grid.add_row([Text.bold("Indexes")])
+      end.render
     end
 
     def render_indexes_with_specific_column
-      if indexes_with_specific_column.blank?
-        Grid.render_empty
-      end
-
-      Grid.new.render(padding: [0, 2]) do |grid|
+      Grid.new(headings: headings) do |grid|
         indexes_with_specific_column.each do |index|
-          grid << compose_index_data(index)
+          grid.add_row(compose_index_data(index))
         end
-      end
+      end.render
     end
 
     def render_indexes
-      if indexes.blank?
-        Grid.render_empty
-        return
-      end
-
-      Grid.new.render(padding: [0, 2]) do |grid|
+      Grid.new(headings: headings) do |grid|
         indexes.each do |index|
-          grid << compose_index_data(index)
+          grid.add_row(compose_index_data(index))
         end
-      end
+      end.render
     end
 
     def compose_index_data(index)
@@ -59,12 +50,16 @@ module TableInspector
       ]
     end
 
+    def headings
+      %w(Name Columns Unique?)
+    end
+
     def indexes
       @indexes ||= connection.indexes(klass.table_name)
     end
 
     def indexes_with_specific_column
-      indexes.select{|index| index.columns.include?(column) }
+      indexes.select{|index| index.columns.include?(column_name) }
     end
 
     def connection
