@@ -9,8 +9,8 @@ group :test do
 end
 
 gem "sqlite3"
-gem "rspec", "~> 3.12.0"
-gem "rspec-rails", "~> 6.0.1"
+gem "rspec"
+gem "rspec-rails"
 
 
 # Start debugger with binding.b [https://github.com/ruby/debug]
