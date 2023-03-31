@@ -22,6 +22,6 @@ Gem::Specification.new do |spec|
     Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
   end
 
-  spec.add_dependency "rails", ">= 6.0.3.0"
+  spec.add_dependency "activerecord", ">= 6.0.3.0"
   spec.add_dependency "terminal-table", "~> 3.0.2"
 end
