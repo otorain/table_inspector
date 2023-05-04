@@ -10,7 +10,7 @@ require "table_inspector"
 TableInspector.scan User
 ```
 
-![TableInspect scan table](/img/table_inspector_scan_table_2.png)
+![TableInspect scan table](/img/table_inspector_scan_table_3.png)
 
 It will print the all table definition and all indexes.
 
@@ -18,14 +18,14 @@ Or you can use `TableInspector.ascan` to print more colorful table(`ascan` means
 ```ruby
 TableInspector.ascan User
 ```
-![TableInspect ascan table](/img/table_inspector_ascan_table_2.png)
+![TableInspect ascan table](/img/table_inspector_ascan_table_3.png)
 
 And to print a specific column by:
 
 ```ruby
 TableInspector.scan User, :name
 ```
-![Table Inspector scan column](/img/table_inspector_scan_column_2.png)
+![Table Inspector scan column](/img/table_inspector_scan_column_3.png)
 
 It will print the column definition and which indexes that contains this column.
 
@@ -34,7 +34,7 @@ Also, you can print `sql_type` which type of column in database by provide `sql_
 ```ruby
 TableInspector.scan User, sql_type: true
 ```
-![Table Inspector scan table column with sql type](/img/table_inspector_scan_table_with_sql_type_2.png)
+![Table Inspector scan table column with sql type](/img/table_inspector_scan_table_with_sql_type_3.png)
 
 ## Installation
 Add this line to your application's Gemfile:

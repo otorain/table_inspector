@@ -3,9 +3,10 @@ module TableInspector
   class Indexes
     attr_reader :klass, :column_name
 
-    def initialize(klass, column_name = nil)
+    def initialize(klass, column_name = nil, colorize: false)
       @klass = klass
       @column_name = column_name
+      @colorize = colorize
     end
 
     def render
@@ -43,6 +44,22 @@ module TableInspector
     end
 
     def compose_index_data(index)
+      if @colorize
+        compose_index_data_with_highlight(index)
+      else
+        compose_index_data_without_highlight(index)
+      end
+    end
+
+    def compose_index_data_with_highlight(index)
+      [
+        index.name,
+        "[#{Text.yellow(index.columns.join(', '))}]",
+        index.unique ? "UNIQUE" : ""
+      ]
+    end
+
+    def compose_index_data_without_highlight(index)
       [
         index.name,
         "[#{index.columns.join(', ')}]",
@@ -59,7 +76,7 @@ module TableInspector
     end
 
     def indexes_with_specific_column
-      indexes.select{|index| index.columns.include?(column_name) }
+      indexes.select{|index| index.columns.include?(column_name.to_s) }
     end
 
     def connection
