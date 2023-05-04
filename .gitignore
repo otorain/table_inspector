@@ -11,4 +11,4 @@
 
 .idea
 *.gem 
-
+*.lock
