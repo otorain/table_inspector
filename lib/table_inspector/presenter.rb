@@ -25,7 +25,7 @@ module TableInspector
     private
 
     def extract_meta_with_highlight(column)
-      column_data = column.as_json.merge(column.sql_type_metadata.as_json)
+      column_data = extract_meta_without_highlight(column)
 
       # Colorize text but except "comment" field
       column_data.each do |k, v|
@@ -40,7 +40,11 @@ module TableInspector
     end
 
     def extract_meta_without_highlight(column)
-      column.as_json.merge(column.sql_type_metadata.as_json).slice(*ordered_keys)
+      column.as_json.merge(column.sql_type_metadata.as_json).slice(*ordered_keys).tap do |column_data|
+        if column_data["default"] == ""
+          column_data["default"] = column_data["default"].inspect
+        end
+      end
     end
 
     def ordered_keys
