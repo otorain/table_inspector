@@ -1,7 +1,5 @@
 # TableInspector
-This is a rails gem for print the definition of table. Sometimes we use some gems to embed the table schema to model file(like `annotate`).
-but sometimes it is hard to maintain, and it has a little noise. I want to find another way to check the schema of table instead of 
-using `annotate`, So I wrote this gem to do this.
+This is a Rails gem that allows you to print the definition of a table. While some gems (like [annotate_models](https://github.com/ctran/annotate_models)) are used to embed the table schema in the model file, they can be difficult to maintain and add unnecessary noise. This gem provides an alternative way to check the schema of a table without using `annotate_models`.
 
 ## Usage
 Assuming there is a model call `User` which has `id` and `name` column, and has a unique index for `name`.
