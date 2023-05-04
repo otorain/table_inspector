@@ -1,5 +1,11 @@
 
-def print_all_indexes_correctly(expectation)
+def print_highlighted_indexes(expectation)
+  expectation.to output(/Indexes/).to_stdout
+  expectation.to output(/Name.*Columns.*Unique\?/).to_stdout
+  expectation.to output(/index_users_on_name.*\[\e\[33mname\e\[0m].*UNIQUE/).to_stdout
+end
+
+def print_normal_indexes(expectation)
   expectation.to output(/Indexes/).to_stdout
   expectation.to output(/Name.*Columns.*Unique\?/).to_stdout
   expectation.to output(/index_users_on_name.*\[name\].*UNIQUE/).to_stdout
@@ -13,7 +19,7 @@ RSpec.shared_examples "output table info with SQL type and without colorful sche
     expectation.to output(/id.*integer/).to_stdout
     expectation.not_to output(/\e\[33mid.*\e\[34minteger/).to_stdout
     expectation.to output(/name.*string/).to_stdout
-    print_all_indexes_correctly(expectation)
+    print_normal_indexes(expectation)
   end
 end
 
@@ -24,7 +30,7 @@ RSpec.shared_examples "output table info with SQL type and colorful scheme" do |
     expectation.to output(/Name.*Type.*Limit.*Null.*Default.*Precision.*Scale.*Comment.*Sql type/).to_stdout
     expectation.to output(/\e\[33mid.*\e\[34minteger/).to_stdout
     expectation.to output(/name.*string/).to_stdout
-    print_all_indexes_correctly(expectation)
+    print_highlighted_indexes(expectation)
   end
 end
 
@@ -36,7 +42,7 @@ RSpec.shared_examples "output table info without SQL type and colorful scheme" d
     expectation.to output(/id.*integer/).to_stdout
     expectation.not_to output(/\e\[33mid.*\e\[34minteger/).to_stdout
     expectation.to output(/name.*string/).to_stdout
-    print_all_indexes_correctly(expectation)
+    print_normal_indexes(expectation)
   end
 end
 
@@ -47,7 +53,7 @@ RSpec.shared_examples "output table info without SQL type and with colorful sche
     expectation.to output(/Name.*Type.*Limit.*Null.*Default.*Precision.*Scale.*Comment/).to_stdout
     expectation.to output(/\e\[33mid.*\e\[34minteger/).to_stdout
     expectation.to output(/name.*string/).to_stdout
-    print_all_indexes_correctly(expectation)
+    print_highlighted_indexes(expectation)
   end
 end
 
@@ -58,7 +64,7 @@ RSpec.shared_examples "output column info with SQL type and without colorful sch
     expectation.to output(/Name.*Type.*Limit.*Null.*Default.*Precision.*Scale.*Comment.*Sql type/).to_stdout
     expectation.not_to output(/id.*integer/).to_stdout
     expectation.to output(/name.*string/).to_stdout
-    print_all_indexes_correctly(expectation)
+    print_normal_indexes(expectation)
   end
 end
 
@@ -69,7 +75,7 @@ RSpec.shared_examples "output column info with SQL type and colorful scheme" do 
     expectation.to output(/Name.*Type.*Limit.*Null.*Default.*Precision.*Scale.*Comment.*Sql type/).to_stdout
     expectation.not_to output(/\e\[33mid.*\e\[34minteger/).to_stdout
     expectation.to output(/\e\[33mname.*\e\[33mstring/).to_stdout
-    print_all_indexes_correctly(expectation)
+    print_highlighted_indexes(expectation)
   end
 end
 
@@ -80,7 +86,7 @@ RSpec.shared_examples "output column info without SQL type and colorful scheme" 
     expectation.to output(/Name.*Type.*Limit.*Null.*Default.*Precision.*Scale.*Comment/).to_stdout
     expectation.not_to output(/id.*integer/).to_stdout
     expectation.to output(/name.*string/).to_stdout
-    print_all_indexes_correctly(expectation)
+    print_normal_indexes(expectation)
   end
 end
 
@@ -91,6 +97,6 @@ RSpec.shared_examples "output column info without SQL type and with colorful sch
     expectation.to output(/Name.*Type.*Limit.*Null.*Default.*Precision.*Scale.*Comment/).to_stdout
     expectation.not_to output(/\e\[33mid.*\e\[34minteger/).to_stdout
     expectation.to output(/\e\[33mname.*\e\[33mstring/).to_stdout
-    print_all_indexes_correctly(expectation)
+    print_highlighted_indexes(expectation)
   end
 end

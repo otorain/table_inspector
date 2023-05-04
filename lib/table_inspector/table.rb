@@ -7,6 +7,7 @@ module TableInspector
       @klass = klass
       @sql_type = sql_type
       @presenter = Presenter.new(klass, sql_type: sql_type, colorize: colorize)
+      @colorize = colorize
     end
 
     def render
@@ -35,7 +36,7 @@ module TableInspector
     end
 
     def render_indexes
-      Indexes.new(klass).render
+      Indexes.new(klass, colorize: @colorize).render
     end
   end
 end

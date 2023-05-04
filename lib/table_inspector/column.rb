@@ -7,6 +7,7 @@ module TableInspector
       @column = klass.columns.find {|column| column.name == column_name.to_s}
       @klass = klass
       @sql_type = sql_type
+      @colorize = colorize
       @presenter = Presenter.new(klass, sql_type: sql_type, colorize: colorize)
     end
 
@@ -15,7 +16,7 @@ module TableInspector
       render_title
       render_body
       Text.break_line
-      Indexes.new(klass, column.name).render
+      Indexes.new(klass, column.name, colorize: @colorize).render
       Text.break_line
     end
 
