@@ -12,7 +12,7 @@ TableInspector.scan User
 
 ![TableInspect scan table](/img/table_inspector_scan_table_3.png)
 
-It will print the all table definition and all indexes.
+It will print the table definition and all indexes.
 
 Or you can use `TableInspector.ascan` to print more colorful table(`ascan` means `awesome scan`) :
 ```ruby
@@ -29,7 +29,7 @@ TableInspector.scan User, :name
 
 It will print the column definition and which indexes that contains this column.
 
-Also, you can print `sql_type` which type of column in database by provide `sql_type: true` option: 
+You can print SQL type of column in the database by providing the `sql_type: true` option:
 
 ```ruby
 TableInspector.scan User, sql_type: true
