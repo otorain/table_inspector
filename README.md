@@ -23,7 +23,7 @@ $ bundle
 
 Or install it yourself as:
 ```bash
-$ gem install table_inspector -v 0.6.0
+$ gem install table_inspector
 ```
 
 ## Usage
