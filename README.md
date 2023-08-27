@@ -56,7 +56,7 @@ TableInspector.scan User, :name
 
 It will print the column definition and which indexes that contains this column.
 
-**It is recommended to include `TableInspector::Inspectable` in `app/models/application_record.rb` and use `ti` or `ati` method to print the table definition: **
+**It is recommended to include `TableInspector::Inspectable` in `app/models/application_record.rb` and use `ti` or `ati` method to print the table definition:**
 ```ruby
 # app/models/application_record.rb
 class ApplicationRecord < ActiveRecord::Base
@@ -96,7 +96,7 @@ TableInspector.scan User, comment_only: true
 If the `sql_type: true` option is also provided, the sql_type option will be omitted.
 
 ## Style
-You can change the style of the table by setting the `TableInspector.style` in `config/initalizers/table_inspector.rb`(create it if not exists): 
+To change the style of the table by setting the `TableInspector.style` in `config/initializers/table_inspector.rb`(create it if not exists): 
 ```ruby
 # config/initializers/table_inspector.rb
 
