@@ -1,3 +1,6 @@
+require 'simplecov'
+SimpleCov.start
+
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].sort.each { |f| require f }
 
 ENV['RAILS_ENV'] = 'test'
