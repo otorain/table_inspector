@@ -1,42 +1,43 @@
 
 module TableInspector
   class Table
-    attr_reader :klass, :sql_type, :presenter
+    attr_reader :klass, :presenter, :presenter_option
+    delegate :break_line, :bold, to: TableInspector::Text
 
-    def initialize(klass, sql_type: false, colorize: false)
+    def initialize(klass, presenter_option)
       @klass = klass
-      @sql_type = sql_type
-      @presenter = Presenter.new(klass, sql_type: sql_type, colorize: colorize)
-      @colorize = colorize
+      @presenter = Presenter.new(klass, presenter_option)
+      @presenter_option = presenter_option
     end
 
     def render
-      Text.break_line
+      break_line # empty line
       render_title
       render_body
-      Text.break_line
+      break_line # empty line
       render_indexes
-      Text.break_line
+      break_line # empty line
     end
 
     private
 
     def render_title
-      Grid.new do |grid|
-        grid.add_row(["#{Text.bold('Table')}: #{klass.table_name}"])
+      TerminalTable.new do |terminal_table|
+        table_name = bold('Table') + ": " + klass.table_name
+        terminal_table.add_row([table_name])
       end.render
     end
 
     def render_body
-      Grid.new(headings: presenter.headings) do |grid|
+      TerminalTable.new(headings: presenter.headings) do |terminal_table|
         klass.columns.each do |column|
-          grid.add_row(presenter.extract_meta(column).values)
+          terminal_table.add_row(presenter.extract_meta(column).values)
         end
       end.render
     end
 
     def render_indexes
-      Indexes.new(klass, colorize: @colorize).render
+      Indexes.new(klass, colorize: presenter.option.colorize).render
     end
   end
 end

@@ -13,7 +13,7 @@ module TableInspector
       render_title
 
       if column_name
-        render_indexes_with_specific_column
+        render_indexes_of_column
       else
         render_indexes
       end
@@ -22,48 +22,53 @@ module TableInspector
     private
 
     def render_title
-      Grid.new do |grid|
-        grid.add_row([Text.bold("Indexes")])
+      TerminalTable.new do |terminal_table|
+        terminal_table.add_row([Text.bold("Indexes")])
       end.render
     end
 
-    def render_indexes_with_specific_column
-      Grid.new(headings: headings) do |grid|
-        indexes_with_specific_column.each do |index|
-          grid.add_row(compose_index_data(index))
+    def render_indexes_of_column
+      TerminalTable.new(headings: headings) do |terminal_table|
+        indexes_of_column.each do |index|
+          terminal_table.add_row(compose_index_data(index))
         end
       end.render
     end
 
     def render_indexes
-      Grid.new(headings: headings) do |grid|
+      TerminalTable.new(headings: headings) do |terminal_table|
         indexes.each do |index|
-          grid.add_row(compose_index_data(index))
+          terminal_table.add_row(compose_index_data(index))
         end
       end.render
     end
 
     def compose_index_data(index)
       if @colorize
-        compose_index_data_with_highlight(index)
+        compose_index_data_with_color(index)
       else
-        compose_index_data_without_highlight(index)
+        compose_index_data_without_color(index)
       end
     end
 
-    def compose_index_data_with_highlight(index)
+    def compose_index_data_with_color(index)
+      index_columns_text = index.columns.join(', ')
+      unique_text = index.unique ? "UNIQUE" : ""
+
       [
         index.name,
-        "[#{Text.yellow(index.columns.join(', '))}]",
-        index.unique ? "UNIQUE" : ""
+        "[#{Text.yellow(index_columns_text)}]",
+        unique_text
       ]
     end
 
-    def compose_index_data_without_highlight(index)
+    def compose_index_data_without_color(index)
+      index_columns_text = index.columns.join(', ')
+      unique_text = index.unique ? "UNIQUE" : ""
       [
         index.name,
-        "[#{index.columns.join(', ')}]",
-        index.unique ? "UNIQUE" : ""
+        "[#{index_columns_text}]",
+        unique_text
       ]
     end
 
@@ -75,8 +80,8 @@ module TableInspector
       @indexes ||= connection.indexes(klass.table_name)
     end
 
-    def indexes_with_specific_column
-      indexes.select{|index| index.columns.include?(column_name.to_s) }
+    def indexes_of_column
+      indexes.select{ |index| index.columns.include?(column_name.to_s) }
     end
 
     def connection

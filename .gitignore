@@ -13,3 +13,4 @@
 *.gem 
 *.lock
 .ruby-version
+coverage

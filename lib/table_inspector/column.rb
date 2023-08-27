@@ -1,37 +1,42 @@
 
 module TableInspector
   class Column
-    attr_reader :column, :klass, :sql_type, :presenter
+    attr_reader :column, :klass, :presenter
+    delegate :break_line, :bold, to: TableInspector::Text
 
-    def initialize(klass, column_name, sql_type: false, colorize: false )
-      @column = klass.columns.find {|column| column.name == column_name.to_s}
+    def initialize(klass, column_name, presenter_option)
+      @column = klass.columns.find { |column| column.name == column_name.to_s }
       @klass = klass
-      @sql_type = sql_type
-      @colorize = colorize
-      @presenter = Presenter.new(klass, sql_type: sql_type, colorize: colorize)
+      @presenter = Presenter.new(klass, presenter_option)
     end
 
     def render
-      Text.break_line
+      break_line # empty line
       render_title
       render_body
-      Text.break_line
-      Indexes.new(klass, column.name, colorize: @colorize).render
-      Text.break_line
+      break_line # empty line
+      render_indexes
+      break_line # empty line
     end
 
     private
 
     def render_title
-      Grid.new do |grid|
-        grid.add_row(["#{Text.bold('Table')}: #{klass.table_name}", "#{Text.bold('Column')}: #{column.name}"])
+      TerminalTable.new do |terminal_table|
+        table_name = bold('Table') + ": " + klass.table_name
+        column_name = bold('Column') + ": " + column.name
+        terminal_table.add_row([table_name, column_name])
       end.render
     end
 
     def render_body
-      Grid.new(headings: presenter.headings) do |grid|
-        grid.add_row(@presenter.extract_meta(column).values)
+      TerminalTable.new(headings: presenter.headings) do |terminal_table|
+        terminal_table.add_row(@presenter.extract_meta(column).values)
       end.render
+    end
+
+    def render_indexes
+      Indexes.new(klass, column.name, colorize: presenter.option.colorize).render
     end
   end
 end

@@ -1,6 +1,6 @@
 
 module TableInspector
-  class Grid
+  class TerminalTable
     attr_reader :terminal_table
 
     delegate :add_row,
@@ -9,13 +9,15 @@ module TableInspector
 
     def initialize(**options, &block)
       @terminal_table = ::Terminal::Table.new(**options)
+      style = TableInspector.style || { border: :ascii }
+      @terminal_table.style = style
       yield self if block_given?
     end
 
     def render
       if rows.empty?
         Text.break_line
-        puts "  Empty."
+        puts " Empty."
       else
         puts self
       end
