@@ -93,6 +93,7 @@ User.ti comment_only: true
 TableInspector.scan User, comment_only: true
 ```
 ![Table Inspector scan table comment only](/img/table_inspector_scan_table_comment_only.png)
+If the `sql_type: true` option is also provided, the sql_type option will be omitted.
 
 ## Style
 You can change the style of the table by setting the `TableInspector.style` in `config/initalizers/table_inspector.rb`(create it if not exists): 
