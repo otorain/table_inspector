@@ -22,6 +22,13 @@ RSpec.describe TableInspector::Indexes do
   end
 
   context "without specific column" do
+    context "table which has no index" do
+      it "output 'Empty' in index table" do
+        expectation = expect { described_class.new(Post).render }
+        expectation.to output(/.*Empty\./).to_stdout
+      end
+    end
+
     context "with colorize" do
       it "output indexes info with highlighted column" do
         expect do

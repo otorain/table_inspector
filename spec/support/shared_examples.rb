@@ -24,7 +24,7 @@ RSpec.shared_examples "output table info with SQL type and without colorful sche
 end
 
 RSpec.shared_examples "output table info with SQL type and colorful scheme" do |action|
-  it "output table" do
+  it "output table correctly" do
     expectation = expect { action.call }
     expectation.to output(/Table.*: users/).to_stdout
     expectation.to output(/Name.*Type.*Limit.*Null.*Default.*Precision.*Scale.*Comment.*Sql type/).to_stdout
@@ -35,7 +35,7 @@ RSpec.shared_examples "output table info with SQL type and colorful scheme" do |
 end
 
 RSpec.shared_examples "output table info without SQL type and colorful scheme" do |action|
-  it "output table" do
+  it "output table correctly" do
     expectation = expect { action.call }
     expectation.to output(/Table.*: users/).to_stdout
     expectation.to output(/Name.*Type.*Limit.*Null.*Default.*Precision.*Scale.*Comment/).to_stdout
@@ -47,7 +47,7 @@ RSpec.shared_examples "output table info without SQL type and colorful scheme" d
 end
 
 RSpec.shared_examples "output table info without SQL type and with colorful scheme" do |action|
-  it "output table" do
+  it "output table correctly" do
     expectation = expect { action.call }
     expectation.to output(/Table.*: users/).to_stdout
     expectation.to output(/Name.*Type.*Limit.*Null.*Default.*Precision.*Scale.*Comment/).to_stdout
@@ -69,7 +69,7 @@ RSpec.shared_examples "output column info with SQL type and without colorful sch
 end
 
 RSpec.shared_examples "output column info with SQL type and colorful scheme" do |action|
-  it "output table" do
+  it "output table correctly" do
     expectation = expect { action.call }
     expectation.to output(/Table.*: users.*Column.*name/).to_stdout
     expectation.to output(/Name.*Type.*Limit.*Null.*Default.*Precision.*Scale.*Comment.*Sql type/).to_stdout
@@ -80,7 +80,7 @@ RSpec.shared_examples "output column info with SQL type and colorful scheme" do 
 end
 
 RSpec.shared_examples "output column info without SQL type and colorful scheme" do |action|
-  it "output table" do
+  it "output table correctly" do
     expectation = expect { action.call }
     expectation.to output(/Table.*: users.*Column.*name/).to_stdout
     expectation.to output(/Name.*Type.*Limit.*Null.*Default.*Precision.*Scale.*Comment/).to_stdout
@@ -91,7 +91,7 @@ RSpec.shared_examples "output column info without SQL type and colorful scheme" 
 end
 
 RSpec.shared_examples "output column info without SQL type and with colorful scheme" do |action|
-  it "output table" do
+  it "output table correctly" do
     expectation = expect { action.call }
     expectation.to output(/Table.*: users.*Column.*name/).to_stdout
     expectation.to output(/Name.*Type.*Limit.*Null.*Default.*Precision.*Scale.*Comment/).to_stdout

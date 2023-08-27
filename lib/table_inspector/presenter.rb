@@ -1,16 +1,16 @@
 
 module TableInspector
   class Presenter
-    attr_reader :klass, :sql_type
+    attr_reader :klass, :option
+    delegate :green, :yellow, :red, :blue, :cyan, to: Text
 
-    def initialize(klass, sql_type:, colorize: false)
+    def initialize(klass, option)
       @klass = klass
-      @sql_type = sql_type
-      @colorize = colorize
+      @option = option
     end
 
     def extract_meta(column)
-      if @colorize
+      if option.colorize
         extract_meta_with_highlight(column)
       else
         extract_meta_without_highlight(column)
@@ -18,8 +18,7 @@ module TableInspector
     end
 
     def headings
-      first_column = klass.columns.first
-      extract_meta(first_column).keys.map(&:humanize)
+      ordered_keys.map(&:humanize)
     end
 
     private
@@ -48,23 +47,27 @@ module TableInspector
     end
 
     def ordered_keys
-      %w[name type limit null default precision scale comment].tap do |keys|
-        keys << "sql_type" if sql_type
+      if option.comment_only
+        %w[name comment]
+      else
+        %w[name type limit null default precision scale comment].tap do |keys|
+          keys << "sql_type" if option.sql_type
+        end
       end
     end
 
     def colorize(value)
       case value
       when TrueClass, DateTime, 'datetime'
-        Text.green(value)
+        green(value)
       when FalseClass
-        Text.red(value)
+        red(value)
       when Numeric, 'integer', 'decimal'
-        Text.blue(value)
+        blue(value)
       when 'boolean'
-        Text.cyan(value)
+        cyan(value)
       when String
-        Text.yellow(value)
+        yellow(value)
       else
         value
       end

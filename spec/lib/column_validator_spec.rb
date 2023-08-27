@@ -15,7 +15,7 @@ RSpec.describe TableInspector::ColumnValidator do
       it "output" do
         expect do
           validator.validate!
-        end.to output(/doesn't exists in table/).to_stdout
+        end.to output(/doesn't exist in table/).to_stdout
       end
     end
 

@@ -22,7 +22,7 @@ module TableInspector
     end
 
     def column_is_not_exists_hint
-      puts "Column '#{column_name}' doesn't exists in table '#{klass.table_name}'!"
+      puts "Column '#{column_name}' doesn't exist in table '#{klass.table_name}'!"
     end
   end
 end

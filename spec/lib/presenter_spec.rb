@@ -8,7 +8,8 @@ RSpec.describe TableInspector::Presenter do
     context "with `sql_type: true` option" do
       context "with `colorize: false`" do
         it "return column definition from column" do
-          presenter = described_class.new(model_klass, sql_type: true, colorize: false)
+          presenter_option = TableInspector::PresenterOption.new(sql_type: true, colorize: false)
+          presenter = described_class.new(model_klass, presenter_option)
           column = model_klass.columns.find{|column| column.name == column_name }
 
           expect(presenter.extract_meta(column)) .to eq({"name"=>"name",
@@ -25,7 +26,8 @@ RSpec.describe TableInspector::Presenter do
 
       context "with `colorize: true`" do
         it "return column definition with color" do
-          presenter = described_class.new(model_klass, sql_type: true, colorize: true)
+          presenter_option = TableInspector::PresenterOption.new(sql_type: true, colorize: true)
+          presenter = described_class.new(model_klass, presenter_option)
           column = model_klass.columns.find{|column| column.name == column_name}
 
           expect(presenter.extract_meta(column)).to eq({"name"=>"\e[33mname\e[0m",
@@ -44,7 +46,8 @@ RSpec.describe TableInspector::Presenter do
     context "with `sql_type: false` option" do
       context "with `colorize: false`" do
         it "return column definition from column" do
-          presenter = described_class.new(model_klass, sql_type: false, colorize: false)
+          presenter_option = TableInspector::PresenterOption.new(sql_type: false, colorize: false)
+          presenter = described_class.new(model_klass, presenter_option)
           column = model_klass.columns.find{|column| column.name == column_name }
 
           expect(presenter.extract_meta(column)) .to eq({"name"=>"name",
@@ -63,14 +66,16 @@ RSpec.describe TableInspector::Presenter do
   describe "#headings" do
     context "with option sql_type: true" do
       it 'return ["Name", "Type", "Limit", "Null", "Default", "Precision", "Scale", "Comment", "SqlType"]' do
-        presenter = described_class.new(User, sql_type: false)
-        expect(presenter.headings).to eq(["Name", "Type", "Limit", "Null", "Default", "Precision", "Scale", "Comment"])
+        presenter_option = TableInspector::PresenterOption.new(sql_type: true)
+        presenter = described_class.new(User, presenter_option)
+        expect(presenter.headings).to eq(["Name", "Type", "Limit", "Null", "Default", "Precision", "Scale", "Comment", "Sql type"])
       end
     end
 
     context "with option sql_type: false" do
       it 'return ["Name", "Type", "Limit", "Null", "Default", "Precision", "Scale", "Comment"]' do
-        presenter = described_class.new(User, sql_type: false)
+        presenter_option = TableInspector::PresenterOption.new(sql_type: false)
+        presenter = described_class.new(User, presenter_option)
         expect(presenter.headings).to eq(["Name", "Type", "Limit", "Null", "Default", "Precision", "Scale", "Comment"])
       end
     end
