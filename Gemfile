@@ -8,7 +8,7 @@ group :test do
   gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
   gem "rspec"
   gem "rspec-rails"
-  gem 'simplecov', require: false, group: :test
+  gem 'simplecov', require: false
 end
 
 gem "sqlite3"
