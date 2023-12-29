@@ -1,5 +1,5 @@
 # TableInspector
-![Test coverage](https://img.shields.io/badge/Test_coverage-99.65-green)
+![Test coverage](https://img.shields.io/badge/Test_coverage-99.65%25-green)
 ![Release version](https://img.shields.io/badge/Release-v0.6.0-green)
 ![Workflow badge](https://github.com/otorain/table_inspector/actions/workflows/run_test.yml/badge.svg)
 
@@ -37,11 +37,10 @@ TableInspector.scan User
 
 ![TableInspect scan table](/img/table_inspector_scan_table_3.png)
 
-It will print the scheme of table and indexes. 
-(If the table content is too long, It may be printed messy. You can adjust the scaling of the terminal window to fix it. 
-Alternatively, you can use `TableInspector.scan(User, :name)` to print a specific column)
+This will print the scheme of table and indexes. 
+If the table content is too long and appears messy, you can adjust the scaling of the terminal window or use the `TableInspector.scan(User, :name)` syntax to print a specific column. 
 
-Or you can use `TableInspector.ascan` to print more colorful table(`ascan` means `awesome scan`) :
+Alternatively, you can use `TableInspector.ascan` to print a more colorful table(`ascan` means `awesome scan`) :
 ```ruby
 TableInspector.ascan User
 ```
@@ -56,7 +55,7 @@ TableInspector.scan User, :name
 
 It will print the column definition and which indexes that contains this column.
 
-**It is recommended to include `TableInspector::Inspectable` in `app/models/application_record.rb` and use `ti` or `ati` method to print the table definition:**
+It is recommended to include `TableInspector::Inspectable` module in `app/models/application_record.rb` file to get the shortcut methods(`ti` and `ati`):
 ```ruby
 # app/models/application_record.rb
 class ApplicationRecord < ActiveRecord::Base
@@ -68,7 +67,7 @@ class ApplicationRecord < ActiveRecord::Base
   # ...
 end
 ```
-and call:
+Once you've included the module, you can use the `ti` and `ati` methods on the User model directly:
 ```ruby
 # Same as TableInspector.scan User
 User.ti
@@ -86,7 +85,7 @@ TableInspector.scan User, sql_type: true
 ```
 ![Table Inspector scan table column with sql type](/img/table_inspector_scan_table_with_sql_type_3.png)
 
-To print comment column only for the table, use `comment_only: true` option:
+Additionally, if you want to print the comments associated with the columns of the table, you can use the `comment_only` option:
 ```ruby
 User.ti comment_only: true
 # or
