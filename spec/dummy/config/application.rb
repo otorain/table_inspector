@@ -33,8 +33,5 @@ module Dummy
 
     # Don't generate system test files.
     config.generators.system_tests = nil
-
-    # Disable legacy_connection_handling
-    config.active_record.legacy_connection_handling = false
   end
 end
