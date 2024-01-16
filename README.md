@@ -30,8 +30,6 @@ $ gem install table_inspector
 Assuming there is a model call `User` which has `id` and `name` column, and has a unique index for `name`.
 For print the table structure of User, we can use: 
 ```ruby
-require "table_inspector"
-
 TableInspector.scan User
 ```
 
@@ -55,19 +53,25 @@ TableInspector.scan User, :name
 
 It will print the column definition and which indexes that contains this column.
 
-It is recommended to include `TableInspector::Inspectable` module in `app/models/application_record.rb` file to get the shortcut methods(`ti` and `ati`):
+If you are using Ruby version 2.7.0 or later, you can define a helper method directly in the model itself by editing the `app/models/application_record.rb` file and adding the code provided above:
 ```ruby
 # app/models/application_record.rb
 class ApplicationRecord < ActiveRecord::Base
-  self.abstract_class = true
-  
-  # Add this line
-  include TableInspector::Inspectable
+  # ...
 
+  def self.ti(...)
+    TableInspector.scan(self, ...) if const_defined?("TableInspector")
+  end
+
+  def self.ati(...)
+    TableInspector.ascan(self, ...) if const_defined?("TableInspector")
+  end
+  
   # ...
 end
 ```
-Once you've included the module, you can use the `ti` and `ati` methods on the User model directly:
+Then you will be able to achieve the same effect as `scan` and `ascan` do by invoking `ti` and `ati` on the model class:
+
 ```ruby
 # Same as TableInspector.scan User
 User.ti
@@ -75,7 +79,6 @@ User.ti
 # Same as TableInspector.ascan User
 User.ati
 ```
-The module `TableInspector::Inspectable` only defines two class methods: `ti` and `ati`, which delegate to `TableInspector.scan` and `TableInspector.ascan` respectively.
 
 You can print the database column type by providing the `sql_type: true` option:
 ```ruby
