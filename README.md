@@ -53,7 +53,7 @@ TableInspector.scan User, :name
 
 It will print the column definition and which indexes that contains this column.
 
-If you are using Ruby version 2.7.0 or later, you can define a helper method directly in the model itself by editing the `app/models/application_record.rb` file and adding the code provided above:
+If you are using Ruby version 2.7.0 or later, you can define a helper method directly in the model itself by editing the `app/models/application_record.rb` file and adding the code provided below:
 ```ruby
 # app/models/application_record.rb
 class ApplicationRecord < ActiveRecord::Base
