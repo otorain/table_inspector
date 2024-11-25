@@ -7,7 +7,7 @@ module TableInspector
     def initialize(klass, column_name, presenter_option)
       @column = klass.columns.find { |column| column.name == column_name.to_s }
       @klass = klass
-      @presenter = Presenter.new(klass, presenter_option)
+      @presenter = Presenter.current.new(klass, presenter_option)
     end
 
     def render

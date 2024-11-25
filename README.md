@@ -1,5 +1,5 @@
 # TableInspector
-![Test coverage](https://img.shields.io/badge/Test_coverage-99.65%25-green)
+![Test coverage](https://img.shields.io/badge/Test_coverage-96.71%25-green)
 ![Release version](https://img.shields.io/badge/Release-v0.6.0-green)
 ![Workflow badge](https://github.com/otorain/table_inspector/actions/workflows/run_test.yml/badge.svg)
 

@@ -6,7 +6,7 @@ module TableInspector
 
     def initialize(klass, presenter_option)
       @klass = klass
-      @presenter = Presenter.new(klass, presenter_option)
+      @presenter = Presenter.current.new(klass, presenter_option)
       @presenter_option = presenter_option
     end
 
