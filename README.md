@@ -1,19 +1,17 @@
 # TableInspector
 ![Test coverage](https://img.shields.io/badge/Test_coverage-96.71%25-green)
-![Release version](https://img.shields.io/badge/Release-v0.6.0-green)
+![Release version](https://img.shields.io/badge/Release-v1.0.0-green)
 ![Workflow badge](https://github.com/otorain/table_inspector/actions/workflows/run_test.yml/badge.svg)
 
 This is a Rails gem that allows you to print the structure of a database table by providing a model class.
 It functions similar to [annotate_models](https://github.com/ctran/annotate_models), but offers an alternative way to checking the table schema.
 The print function is based on [terminal-table](https://github.com/tj/terminal-table)
 
-This doc is about version 0.6.0. For version 0.5.0, please see [here](https://github.com/otorain/table_inspector/tree/v0.5.5)
-
 ## Installation
 Add this line to your application's Gemfile:
 
 ```ruby
-gem "table_inspector", "~> 0.6.0"
+gem "table_inspector", "~> 1.0.0"
 ```
 
 And then execute:
